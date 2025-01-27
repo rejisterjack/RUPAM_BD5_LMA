@@ -127,8 +127,17 @@ app.post("/products/new", async (req, res) => {
 })
 
 // Exercise 3: Create a New Category
+const addNewCategory = async ({ name = "", description = "" }) => {
+  const newCategory = await Category.create({
+    name,
+    description,
+  })
+  return newCategory
+}
 app.post("/categories/new", async (req, res) => {
   try {
+    const newCategory = await addNewCategory(req.body.newCategory)
+    res.status(200).json({ newCategory })
   } catch (error) {
     res.status(500).json({
       error: error.message,
